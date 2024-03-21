@@ -110,7 +110,7 @@ function setamt(userno, amt) {
 function bet(amt) {
     const userCount = Object.keys(userBalances).length;
     for (let i = 1; i <= userCount; i++) {
-        sub(i, amt);
+        subpoint(i, amt);
     }
     totalBetAmount += amt * userCount;
     updateProfiles()
@@ -118,13 +118,15 @@ function bet(amt) {
 
 function betwon(userno) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
-        add(userno, checkbet());
-        totalBetAmount = 0;
+        const winnings = totalBetAmount; // Each user gets the total bet amount as winnings
+        addpoint(userno, winnings); // Add the winnings to the user's balance
+        totalBetAmount = 0; // Reset the total bet amount
     } else {
         console.error(`User ${userno} does not exist. Cannot process bet won.`);
     }
-    updateProfiles();
+    updateProfiles(); // Update user profiles after processing bet won
 }
+
 
 function checkall() {
     return userBalances;
@@ -188,7 +190,7 @@ document.getElementById('commandInput').addEventListener('keyup', function(event
 function wonBet(userno) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
         const winnings = checkbet();
-        add(userno, winnings);
+        addpoint(userno, winnings);
         totalBetAmount = 0;
     } else {
         console.error(`User ${userno} does not exist. Cannot process bet won.`);
