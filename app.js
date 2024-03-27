@@ -231,10 +231,10 @@ const executeButton = document.getElementById('executeButton');
 
 reset_bid(4, 10000); // Call to reset_bid with parameters 4 and 10000 on page load
 
-
-executeButton.addEventListener('auxclick', function(event) {
-    event.preventDefault();
-    document.getElementById('commandInput').value = 'reset_bid 4 10000';
-});
+// [[ aux click not working ]]
+// executeButton.addEventListener('auxclick', function(event) {
+//     event.preventDefault();
+//     document.getElementById('commandInput').value = 'reset_bid 4 10000';
+// });
 
 
