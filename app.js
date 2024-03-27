@@ -229,14 +229,12 @@ function wonBet(userno) {
 // Get the execute button
 const executeButton = document.getElementById('executeButton');
 
-// Add event listener for right-click (contextmenu) event
+reset_bid(4, 10000); // Call to reset_bid with parameters 4 and 10000 on page load
+
+
 executeButton.addEventListener('contextmenu', function(event) {
-    // Prevent the default context menu from appearing
     event.preventDefault();
-    
-    // Add the desired command to the command entry box
     document.getElementById('commandInput').value = 'reset_bid 4 10000';
 });
 
 
-reset_bid(4, 10000); // Call to reset_bid with parameters 4 and 10000 on page load
