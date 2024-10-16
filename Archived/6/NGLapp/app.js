@@ -3,9 +3,10 @@ function extractAlnum(string) {
     return string.replace(/[^a-zA-Z0-9_]/g, '');
 }
 
-// Function to send question to NGL API
+// Function to send question to NGL API using a CORS proxy
 async function sendQuestion(receiver, question, sender) {
-    const url = "https://ngl.link/api/submit";
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // CORS proxy URL
+    const url = "https://ngl.link/api/submit"; // Original API URL
     const headers = {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     };
@@ -17,26 +18,20 @@ async function sendQuestion(receiver, question, sender) {
     });
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(proxyUrl + url, { // Using the proxy URL
             method: "POST",
             headers: headers,
             body: data
         });
 
-        // Check the HTTP response status
-        if (!response.ok) {
-            console.log(`HTTP error! Status: ${response.status}`);
-            return `HTTP error! Status: ${response.status}`;
-        }
-
         // Get the response as text for debugging purposes
         const textResponse = await response.text();
-        console.log('Raw response text:', textResponse);
+        console.log('Raw response text:', textResponse); // Log raw response text
 
         try {
             // Attempt to parse the text as JSON
             const json = JSON.parse(textResponse);
-            console.log('Parsed JSON:', json);
+            console.log('Parsed JSON:', json); // Log parsed JSON response
 
             // Check for questionId in the parsed JSON
             if (json.questionId) {
@@ -45,7 +40,7 @@ async function sendQuestion(receiver, question, sender) {
                 return "User Blocked or Invalid ID!";
             }
         } catch (e) {
-            // If JSON parsing fails, return raw text
+            // If JSON parsing fails, log the error and return raw text
             console.log('Failed to parse JSON. Returning raw response:', textResponse);
             return `Failed to parse JSON. Raw response: ${textResponse}`;
         }
